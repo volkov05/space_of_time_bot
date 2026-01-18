@@ -20,7 +20,7 @@ async def root():
 async def telegram_webhook(request: Request):
     data = await request.json()
     update = Update(**data)
-    await dp.feed_update(update)  #
+    await dp.feed_update(update=update, bot=bot)  # <-- правильно передаем аргументы
     return {"ok": True}
 
 # Установка webhook при старте FastAPI
