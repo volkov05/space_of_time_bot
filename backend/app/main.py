@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from .bot.bot import bot, dp
 from .bot.handlers.start import router as start_router
 from aiogram.types import Update
