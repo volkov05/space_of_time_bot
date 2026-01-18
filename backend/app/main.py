@@ -6,7 +6,7 @@ from .bot.handlers.start import router as start_router
 
 logging.basicConfig(level=logging.INFO)
 
-# FastAPI (пока только для проверки)
+# FastAPI (для проверки)
 app = FastAPI(title="Watch Shop Bot API")
 dp.include_router(start_router)
 
@@ -14,11 +14,8 @@ dp.include_router(start_router)
 async def root():
     return {"status": "ok"}
 
-# Функция запуска бота
-async def main():
-    logging.info("Бот запускается...")
-    await dp.start_polling(bot)
-
-# Точка входа
-if __name__ == "__main__":
-    asyncio.run(main())
+# Запуск бота через событие startup FastAPI
+@app.on_event("startup")
+async def on_startup():
+    logging.info("Запускаем Telegram бота...")
+    asyncio.create_task(dp.start_polling(bot))
