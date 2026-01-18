@@ -3,10 +3,10 @@ import logging
 from fastapi import FastAPI
 from .bot.bot import bot, dp
 from .bot.handlers.start import router as start_router
+from aiogram.types import Update
 
 logging.basicConfig(level=logging.INFO)
 
-# FastAPI (для проверки)
 app = FastAPI(title="Watch Shop Bot API")
 dp.include_router(start_router)
 
@@ -14,8 +14,18 @@ dp.include_router(start_router)
 async def root():
     return {"status": "ok"}
 
-# Запуск бота через событие startup FastAPI
+# Webhook endpoint
+@app.post("/webhook")
+async def telegram_webhook(request: Request):
+    data = await request.json()
+    update = Update(**data)
+    await dp.process_update(update)
+    return {"ok": True}
+
+# Устанавливаем webhook при старте
 @app.on_event("startup")
 async def on_startup():
-    logging.info("Запускаем Telegram бота...")
-    asyncio.create_task(dp.start_polling(bot))
+    WEBHOOK_URL = "https://space-of-time-bot.onrender.com/webhook"  #
+    logging.info(f"Устанавливаем webhook: {WEBHOOK_URL}")
+    await bot.delete_webhook(drop_pending_updates=True)
+    await bot.set_webhook(WEBHOOK_URL)
