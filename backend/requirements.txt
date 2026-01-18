@@ -1,0 +1,13 @@
+# Telegram Bot
+aiogram==3.24.0
+# Web framework
+fastapi==0.111.0
+# ASGI сервер
+uvicorn[standard]==0.23.1
+# Работа с .env
+python-dotenv==1.0.1
+# База данных
+SQLAlchemy==2.0.19
+aiosqlite==0.18.0
+# HTTP запросы (для Tilda API)
+httpx>=0.28,<0.29
