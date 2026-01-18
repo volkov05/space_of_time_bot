@@ -1,4 +1,3 @@
-import asyncio
 import logging
 from fastapi import FastAPI, Request
 from .bot.bot import bot, dp
@@ -14,7 +13,6 @@ dp.include_router(start_router)
 async def root():
     return {"status": "ok"}
 
-# Webhook endpoint
 @app.post("/webhook")
 async def telegram_webhook(request: Request):
     data = await request.json()
@@ -22,7 +20,6 @@ async def telegram_webhook(request: Request):
     await dp.process_update(update)
     return {"ok": True}
 
-# Устанавливаем webhook при старте
 @app.on_event("startup")
 async def on_startup():
     WEBHOOK_URL = "https://space-of-time-bot.onrender.com/webhook"  #
