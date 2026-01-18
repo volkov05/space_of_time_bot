@@ -11,3 +11,6 @@ SQLAlchemy==2.0.19
 aiosqlite==0.18.0
 # HTTP запросы (для Tilda API)
 httpx>=0.28,<0.29
+
+gunicorn
+uvicorn[standard]
